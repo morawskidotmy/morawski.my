@@ -1,0 +1,119 @@
+body {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+    background-color: #121212; 
+    color: #ffffff; 
+    font-family: Arial, Helvetica, sans-serif; 
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    height: 75vh; 
+    width: 75vw; 
+    gap: 1vw; 
+    margin: auto; 
+}
+
+.item {
+    position: relative; 
+    overflow: hidden; 
+    border-radius: 15px; 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
+}
+
+.bg {
+    background-image: url('./bg.jpg'); 
+    background-size: cover; 
+    background-repeat: no-repeat;
+    height: 100%; 
+    transition: filter 0.3s ease-in-out; 
+    scale: 115%;
+    width: 300%;
+}
+
+.content {
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    text-align: center; 
+    padding: 0.5vw; 
+    opacity: 0; 
+    transition: opacity 0.3s ease-in-out; 
+}
+
+.item:nth-child(1) .bg {
+    background-position: 0% 0vw; 
+}
+
+.item:nth-child(2) .bg {
+    background-position: -22.5vw 0; 
+}
+
+.item:nth-child(3) .bg {
+    background-position: -45vw 0; 
+}
+
+.item:hover .bg {
+    filter: blur(7px) brightness(75%);
+}
+
+.item:hover .content {
+    opacity: 1; 
+}
+
+.item:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3); 
+}
+
+.footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 14px;
+    color: #bbbbbb;
+}
+
+.bento-box {
+    background-color: #1a1a1a; 
+    border-radius: 10px; 
+    padding: 0.5vh; 
+    margin: 0.75vh 0; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.2s ease-in-out; 
+    text-decoration: none; 
+    color: #ffffff; 
+    display: block; 
+    font-size: 1vw;
+}
+
+.bento-box:hover {
+    transform: scale(1.05); 
+}
+
+.title-box {
+    text-align: center; 
+}
+
+a {
+    color: #ffffff; 
+    text-decoration: none; 
+    transition: text-decoration 0.3s ease-in-out; 
+}
+
+a:hover {
+    text-decoration: underline; 
+}
+
+.status-online {
+    border: 0.25vw solid #41d141; 
+}
+
+.status-offline {
+    border: #e63e3e 0.25vw solid;
+}

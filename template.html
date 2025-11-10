@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>morawski.my</title>
+    <link rel="stylesheet" href="styles.css">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+</head>
+
+<body>
+    <div class="container">
+        <div class="item">
+            <div class="bg"></div>
+            <div class="content">
+                <div class="bento-box title-box">
+                    <h2>Directions</h2>
+                </div>
+
+                <div class="bento-box">
+                    <strong>morawski.my</strong><br>
+                    <a href="https://morawski.my/">Main Site / Status Page</a><br>
+                    <a href="http://aisybyt4twtcy3zxgnory7bpzm5wg5zs77llxdngq2s4zqqswywfe4id.onion">Onion Link</a>
+                </div>
+
+                <div class="bento-box">
+                    <strong>red.morawski.my</strong><br>
+                    <a href="https://red.morawski.my/">Eddrit</a><br>
+                    <a href="http://gkmk4lnwm7n2ers43bjdqiiekb6krsq6yjizvhyohqxzba7wkinz4eyd.onion">Onion Link</a><br>
+                    <a href="https://github.com/corenting/eddrit">Source Code</a>
+                </div>
+
+                <div class="bento-box">
+                    <strong>monero.morawski.my:443</strong><br>
+                    <a href="https://monero.morawski.my:443/">Monero Node (SSL enabled)</a><br>
+                    <a href="http://za56jhntj3ywafmbpjrx6mfr56zepfzmmbwriq7ngdzmhhikgowna5id.onion:80">Onion Link</a><br>
+                    <a href="https://github.com/monero-project/monero">Source Code</a>
+                </div>
+
+                <div class="bento-box">
+                    <strong>bin.morawski.my</strong><br>
+                    <a href="http://bin.morawski.my/">PrivateBin (JS)</a><br>
+                    <a href="http://24zkej2qjijzkpb4lzaex2zk5wt27m23alfw3yls2vldfq3olznq6vid.onion">Onion Link</a><br>
+                    <a href="https://github.com/PrivateBin">Source Code</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="bg"></div>
+            <div class="content">
+                <div class="bento-box title-box">
+                    <h2>Status</h2>
+                </div>
+                <div id="serviceStatus">
+                	<!-- services -->
+		</div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="bg"></div>
+            <div class="content">
+                <div class="bento-box title-box">
+                    <h2>Blog Articles</h2>
+		</div>
+                <div id="blogPosts">
+                	<!-- blogs -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Last Updated: {last_updated}
+    </div>
+    <script>
+        fetch("https://check.torproject.org/api/ip").then(response => response.json()).then(data => { if (data.IsTor) alert("You don't need JavaScript to view this website; you should prolly disable it."); });
+    </script>
+</body>
+
+</html>

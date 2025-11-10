@@ -1,0 +1,20 @@
+{
+    "services": [
+        {
+            "name": "Monero",
+            "url": "http://127.0.0.1:18081/get_height"
+        },
+        {
+            "name": "Eddrit",
+            "url": "http://127.0.0.1:4439"
+        },
+        {
+            "name": "PrivateBin (JS)",
+            "url": "http://127.0.0.1:6686"
+        },
+        {
+            "name": "Minecraft",
+            "url": "http://127.0.0.1:25565"
+        }
+    ]
+}
