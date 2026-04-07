@@ -1,0 +1,39 @@
+name: Generate articles.md
+
+on:
+  push:
+    paths:
+      - 'articles/**'
+      - '!articles/articles.md'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate articles.md
+        run: |
+          cd articles
+          echo '<!-- Auto-generated. Do not edit manually. -->' > articles.md
+          echo '' >> articles.md
+          for f in *; do
+            [ "$f" = "articles.md" ] && continue
+            [ ! -f "$f" ] && continue
+            name="${f%.*}"
+            url="https://morawski.my/articles/${f}"
+            mailto="mailto:?subject=${name}&body=Check%20out%20this%20article:%20${url}"
+            echo "[![Read Here](https://img.shields.io/badge/Read-Here-blue)](${url}) [![Mail](https://img.shields.io/badge/Mail-Share-red)](${mailto})" >> articles.md
+            echo "" >> articles.md
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add articles/articles.md
+          git diff --cached --quiet || git commit -m "chore: regenerate articles.md"
+          git push

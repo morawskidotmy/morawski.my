@@ -54,7 +54,7 @@ def generate_html(services, articles):
 
 def main():
     while True:
-        articles = [f for f in os.listdir(ARTICLES_DIR) if os.path.isfile(os.path.join(ARTICLES_DIR, f))]
+        articles = [f for f in os.listdir(ARTICLES_DIR) if os.path.isfile(os.path.join(ARTICLES_DIR, f)) and f != 'articles.md']
         services = load_services()
         html_content = generate_html(services, articles)
 
