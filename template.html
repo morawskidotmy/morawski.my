@@ -78,8 +78,13 @@
     <div class="footer">
         Last Updated: {last_updated}
     </div>
+    <div class="js-notice" id="jsNotice">This site doesn't require JavaScript.</div>
     <script>
-        fetch("https://check.torproject.org/api/ip").then(response => response.json()).then(data => { if (data.IsTor) alert("You don't need JavaScript to view this website; you should prolly disable it."); });
+        (function() {
+            var el = document.getElementById('jsNotice');
+            el.style.opacity = '1';
+            setTimeout(function() { el.style.opacity = '0'; }, 5000);
+        })();
     </script>
 </body>
 

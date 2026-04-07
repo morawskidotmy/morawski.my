@@ -36,12 +36,23 @@ def generate_html(services, articles):
             </div>
         """
 
+    sorted_articles = sorted(
+        articles,
+        key=lambda f: os.path.getmtime(os.path.join(ARTICLES_DIR, f)),
+        reverse=True
+    )[:3]
+
     blog_posts_html = ""
-    for article in articles:
+    for article in sorted_articles:
         article_path = os.path.join(ARTICLES_DIR, article)
         blog_posts_html += f"""
             <div class="bento-box blog-post">
                 <a href="{article_path}"><strong>{article}</strong></a>
+            </div>
+        """
+    blog_posts_html += """
+            <div class="bento-box blog-post">
+                <a href="/articles"><strong>View all articles →</strong></a>
             </div>
         """
 
