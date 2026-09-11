@@ -1,17 +1,37 @@
-import os
 import json
 import time
-import requests
+import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime
+from html import escape
 
-ARTICLES_DIR = './articles'
-SERVICES_FILE = './services.json'
-OUTPUT_FILE = './index.html'
-TEMPLATE_FILE = './template.html'
+import requests
+
+SERVICES_FILE = "./services.json"
+OUTPUT_FILE = "./index.html"
+TEMPLATE_FILE = "./template.html"
+BLSKY_RSS_URL = "https://bsky.app/profile/morawski.my/rss"
+MAX_BLOG_POSTS = 3
+
 
 def load_services():
-    with open(SERVICES_FILE, 'r') as file:
-        return json.load(file)['services']
+    with open(SERVICES_FILE) as file:
+        return json.load(file)["services"]
+
+
+def fetch_bluesky_posts():
+    try:
+        with urllib.request.urlopen(BLSKY_RSS_URL, timeout=10) as response:
+            feed = ET.parse(response).getroot()
+        items = feed.findall("./channel/item")
+        posts = []
+        for item in items[:MAX_BLOG_POSTS]:
+            description = item.findtext("description") or ""
+            posts.append({"description": description})
+        return posts
+    except (OSError, ET.ParseError):
+        return []
+
 
 def check_service_status(url):
     try:
@@ -20,39 +40,35 @@ def check_service_status(url):
     except requests.RequestException:
         return False
 
-def generate_html(services, articles):
-    with open(TEMPLATE_FILE, 'r') as template_file:
+
+def generate_html(services, bluesky_posts):
+    with open(TEMPLATE_FILE) as template_file:
         content = template_file.read()
 
     service_status_html = ""
     for service in services:
-        status = "Online" if check_service_status(service['url']) else "Offline"
+        status = "Online" if check_service_status(service["url"]) else "Offline"
         response_code = "200" if status == "Online" else ""
         service_status_html += f"""
             <div class="bento-box status-{status.lower()}">
-                <strong>{service['name']}</strong><br>
+                <strong>{service["name"]}</strong><br>
                 Status: {status}<br>
                 {"Response Code: " + response_code if response_code else ""}
             </div>
         """
 
-    sorted_articles = sorted(
-        articles,
-        key=lambda f: os.path.getmtime(os.path.join(ARTICLES_DIR, f)),
-        reverse=True
-    )[:3]
-
     blog_posts_html = ""
-    for article in sorted_articles:
-        article_path = os.path.join(ARTICLES_DIR, article)
+    for post in bluesky_posts:
         blog_posts_html += f"""
             <div class="bento-box blog-post">
-                <a href="{article_path}"><strong>{article}</strong></a>
+                <strong>{escape(post["description"])}</strong>
             </div>
         """
     blog_posts_html += """
             <div class="bento-box blog-post">
-                <a href="/articles"><strong>View all articles →</strong></a>
+                <a href="https://bsky.app/profile/morawski.my">
+                    <strong>Follow on Bluesky →</strong>
+                </a>
             </div>
         """
 
@@ -63,17 +79,19 @@ def generate_html(services, articles):
 
     return final_content
 
+
 def main():
     while True:
-        articles = [f for f in os.listdir(ARTICLES_DIR) if os.path.isfile(os.path.join(ARTICLES_DIR, f)) and f != 'articles.md']
+        bluesky_posts = fetch_bluesky_posts()
         services = load_services()
-        html_content = generate_html(services, articles)
+        html_content = generate_html(services, bluesky_posts)
 
-        with open(OUTPUT_FILE, 'w') as output_file:
+        with open(OUTPUT_FILE, "w") as output_file:
             output_file.write(html_content)
 
         print(f"Updated {OUTPUT_FILE} successfully.")
         time.sleep(60)
+
 
 if __name__ == "__main__":
     main()
