@@ -27,7 +27,8 @@ def fetch_bluesky_posts():
         posts = []
         for item in items[:MAX_BLOG_POSTS]:
             description = item.findtext("description") or ""
-            posts.append({"description": description})
+            link = item.findtext("link") or "https://bsky.app/profile/morawski.my"
+            posts.append({"description": description, "link": link})
         return posts
     except (OSError, ET.ParseError):
         return []
@@ -59,9 +60,13 @@ def generate_html(services, bluesky_posts):
 
     blog_posts_html = ""
     for post in bluesky_posts:
+        preview = " ".join(post["description"].split())
+        if len(preview) > 56:
+            preview = preview[:56].rstrip() + "…"
         blog_posts_html += f"""
             <div class="bento-box blog-post">
-                <strong>{escape(post["description"])}</strong>
+                <p class="post-preview">{escape(preview)}</p>
+                <a href="{escape(post["link"])}">Read more →</a>
             </div>
         """
     blog_posts_html += """
